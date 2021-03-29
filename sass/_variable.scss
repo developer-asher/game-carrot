@@ -1,0 +1,45 @@
+@charset 'utf-8';
+
+// size
+$font-size: 15px;
+$base-space: 10px;
+$base-margin: 40px;
+$base-padding: 15px;
+$base-width: 50px;
+$radius: 30px;
+$img-size: 25px;
+$width: (
+  full: 100%,
+  pc: 1280px,
+  tablet: 1024px,
+  mobile: 768px,
+);
+
+// color
+$font-color: #333;
+$gray: (
+  default: #dfdfdf,
+  light: #eee,
+  dark: #c1c1c1,
+);
+$bg: (
+  base-color: #ccc,
+  main-color: salmon,
+);
+
+// animation
+$duration: 0.3s;
+
+// class
+@mixin txt-hide {
+  text-indent: -9999em;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@mixin clear {
+  content: '';
+  display: block;
+  clear: both;
+}

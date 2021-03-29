@@ -1,0 +1,113 @@
+@charset 'utf-8';
+
+@import 'variable';
+
+// common
+button {
+  border-radius: 5px;
+  padding: 0;
+  background-color: rgb(235, 235, 235);
+  font-size: 20px;
+  cursor: pointer;
+}
+.clear:after {
+  @include clear();
+}
+.txt_hide {
+  @include txt-hide();
+}
+
+body {
+  margin: 0;
+  font-size: $font-size;
+  color: $font-color;
+  background-color: map-get($map: $gray, $key: dark);
+}
+.container {
+  position: relative;
+  width: 1000px;
+  height: 600px;
+  margin: $base-margin auto 0 auto;
+  border-radius: $radius;
+  background: url(../img/background.png) no-repeat center;
+  background-size: cover;
+  text-align: center;
+}
+.operaiton {
+  display: flex;
+  flex-direction: column;
+}
+.btn_play {
+  width: $base-width;
+  margin: $base-margin / 2 0;
+  border: 2px solid #000;
+  align-self: center;
+
+  > i {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}
+.timer,
+.counter {
+  background-color: #fff;
+  font-size: $font-size * 1.5;
+  align-self: center;
+}
+.timer {
+  width: $base-width * 2;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: $base-padding / 2 0;
+}
+.counter {
+  width: $base-width;
+  height: $base-width;
+  margin-top: $base-margin / 4;
+  border: 2px solid #000;
+  border-radius: 50%;
+  line-height: $base-width;
+  background-color: map-get($map: $bg, $key: main-color);
+  color: #fff;
+}
+.field > img {
+  position: absolute;
+  top: 55%;
+  transform: translate(-50%, -50%);
+}
+.replay_wrap {
+  // display: none;
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 75%;
+  width: 300px;
+  border-radius: $base-space;
+  padding: $base-padding;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
+  z-index: -1;
+
+  p {
+    margin: 0;
+    margin-top: $base-margin / 2;
+    font-size: 25px;
+  }
+  i {
+    width: 100%;
+    height: 100%;
+    padding: $base-space;
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+}
+.replay_wrap.on {
+  // display: block;
+  opacity: 1;
+  top: 70%;
+  z-index: 1;
+}
