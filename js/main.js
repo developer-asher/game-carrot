@@ -4,6 +4,7 @@ const replayWrap = document.querySelector('.replay_wrap');
 
 const counter = document.querySelector('.counter');
 const carrot_num = 7;
+let changeTime = null;
 
 function createPopUpBox(state, sentence) {
   replayWrap.innerHTML = `
@@ -18,25 +19,31 @@ function createPopUpBox(state, sentence) {
 }
 
 function completeGame() {
+  if(replayWrap.classList.contains('on')) {
+    return;
+  }
+
   const countCarrots = field.querySelectorAll('img[data-img="carrot"]').length;
 
   counter.innerText = `${countCarrots}`;
 
   if(countCarrots === 0) {
     createPopUpBox('win', 'You win!');
+    clearInterval(changeTime);
     playIcon.setAttribute('class', 'fas fa-play');
   }
 }
 
 function handleGame(e) {
-  const clickedTarget = e.target;
-
   if(replayWrap.classList.contains('on')) {
     return;
   }
 
+  const clickedTarget = e.target;
+
   if(clickedTarget.alt === 'bug') {
     createPopUpBox('lose', 'Game Over!');
+    clearInterval(changeTime);
     playIcon.setAttribute('class', 'fas fa-play');
   } else {
     clickedTarget.remove();
@@ -66,10 +73,14 @@ function createBugCarrot() {
 }
 
 function handleMainPlay(e) {
+  if(replayWrap.classList.contains('on')) {
+    return;
+  }
   counter.innerText = carrot_num;
 
   if(playIcon.classList.contains('on') && !replayWrap.classList.contains('on')) {
     playIcon.setAttribute('class', 'fas fa-play');
+    clearInterval(changeTime);
     createPopUpBox('replay', 'Replay?');
   } else if (!playIcon.classList.contains('on') && !replayWrap.classList.contains('on')){
     playIcon.setAttribute('class', 'fas fa-pause on');
@@ -77,23 +88,28 @@ function handleMainPlay(e) {
 }
 
 function handleReplay(e) {
-  console.dir(e.target);
-
   field.innerHTML = '';
   createBugCarrot();
   playIcon.setAttribute('class', 'fas fa-pause on');
   replayWrap.classList.remove('on')
   counter.innerText = carrot_num;
+  playTimer();
 }
 
 function playTimer() {
-  const timer = document.querySelector('.timer'); 
-  let x = 10;
+  if(replayWrap.classList.contains('on')) {
+    return;
+  }
 
-  const changeTime = setInterval(function() {
-    x = x - 1;
+  const timer = document.querySelector('.timer'); 
+  let i = 1;
+
+  timer.innerText = `00:10`;
+  changeTime = setInterval(function() {
+    if(i > 10) return;
+    timer.innerText = `00:0${10 - i}`;
+    i++;
   }, 1000);
-  timer.innerText = `00:0${x}`;
 }
 
 function init(){
@@ -102,7 +118,7 @@ function init(){
   btnPlay.addEventListener('click', () => {
     handleMainPlay(); // play 버튼 변경.
     createBugCarrot(); // bug, carrot을 random한 위치에 각각 생성.
-    playTimer()// carrot 카운트 작동
+    playTimer();
   });
   replayWrap.addEventListener('click', handleReplay);
 }
