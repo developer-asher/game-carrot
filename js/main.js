@@ -88,6 +88,10 @@ function handleMainPlay(e) {
 }
 
 function handleReplay(e) {
+  if(e.target.tagName !== 'I') {
+    return;
+  }
+
   field.innerHTML = '';
   createBugCarrot();
   playIcon.setAttribute('class', 'fas fa-pause on');
