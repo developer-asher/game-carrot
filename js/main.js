@@ -1,19 +1,17 @@
 'use strict';
 import PopUp from './popup.js';
+import Field from './field.js';
 
-const CARROT_SIZE = 80;
 const CARROT_COUNT = 10;
 const BUG_COUNT = 10;
 const GAME_DURATION_SEC = 10;
-
-const field = document.querySelector('.game__field');
-const fieldRect = field.getBoundingClientRect();
 
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 
 const gameFinishBanner = new PopUp();
+const gameField = new Field(CARROT_COUNT, BUG_COUNT);
 
 let started = false;
 let score = 0;
@@ -58,36 +56,9 @@ function finishGame(win) {
   stopSound(bgSound);
 }
 
-function randomNumber(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function addItem(className, count, imgPath) {
-  const x1 = 0;
-  const x2 = fieldRect.width;
-  const y1 = 0;
-  const y2 = fieldRect.height;
-
-  for(let i = 0; i<count; i++) {
-    const item = document.createElement('img');
-    item.setAttribute('class', className);
-    item.setAttribute('src', imgPath);
-    item.setAttribute('alt', className);
-    const x = randomNumber(x1, (x2 - CARROT_SIZE));
-    const y = randomNumber(y1, (y2 - CARROT_SIZE));
-    item.style.position = 'absolute';
-    item.style.left = `${x}px`;
-    item.style.top = `${y}px`;
-    
-    field.appendChild(item);
-  }
-}
-
 function initGame() {
-  field.innerHTML = '';
   gameScore.innerText = CARROT_COUNT;
-  addItem('bug', CARROT_COUNT, 'img/bug.png');
-  addItem('carrot', CARROT_COUNT, 'img/carrot.png');
+  gameField.init();
 }
 
 function showStopButton() {
@@ -152,20 +123,17 @@ function stopSound(sound) {
   sound.pause();
 }
 
-function onFieldClick(event) {
+function onItemClick(item) {
   if(!started) {
     return;
   }
-  const target = event.target;
-  if(target.matches('.carrot')) {
-    target.remove();
+  if(item === 'carrot') {
     score++;
-    playSound(carrotSound);
     updateScore();
     if(score === CARROT_COUNT) {
       finishGame(true);
     }
-  } else if(target.matches('.bug')) {
+  } else if(item === 'bug') {
     finishGame(false);
   }
 }
@@ -178,7 +146,8 @@ gameBtn.addEventListener('click', () => {
   }
 });
 
-field.addEventListener('click', onFieldClick);
+// field.addEventListener('click', onFieldClick);
+gameField.setClickListener(onItemClick);
 
 gameFinishBanner.setClickLisenter(() => {
   startGame();
