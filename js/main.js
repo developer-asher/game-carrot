@@ -1,6 +1,7 @@
 'use strict';
 import PopUp from './popup.js';
 import Field from './field.js';
+import * as sound from './sound.js';
 
 const CARROT_COUNT = 10;
 const BUG_COUNT = 10;
@@ -17,12 +18,6 @@ let started = false;
 let score = 0;
 let timer = undefined;
 
-const carrotSound = new Audio('sound/carrot_pull.mp3');
-const bugSound = new Audio('sound/bug_pull.mp3');
-const alertSound = new Audio('sound/alert.wav');
-const bgSound = new Audio('sound/bg.mp3');
-const winSound = new Audio('sound/game_win.mp3');
-
 function startGame() {
   started = true;
   score = 0;
@@ -30,7 +25,7 @@ function startGame() {
   showStopButton();
   showTimerAndScore();
   startGameTimer();
-  playSound(bgSound);
+  sound.playBackground();
 }
 
 function stopGame() {
@@ -38,8 +33,8 @@ function stopGame() {
   hideStopButton();
   stopGameTimer();
   gameFinishBanner.showWithText('REPLAY???');
-  stopSound(bgSound);
-  playSound(alertSound);
+  sound.stopBackground();
+  sound.playAlert();
 }
 
 function finishGame(win) {
@@ -48,12 +43,12 @@ function finishGame(win) {
   hideStopButton();
   if (win) {
     gameFinishBanner.showWithText('You Win!!');
-    playSound(winSound);
+    sound.playWin();
   } else {
     gameFinishBanner.showWithText('Game Over ^^~');
-    playSound(bugSound);
+    sound.playBug();
   }
-  stopSound(bgSound);
+  sound.stopBackground();
 }
 
 function initGame() {
@@ -112,15 +107,6 @@ function startGameTimer() {
 
 function stopGameTimer() {
   clearInterval(timer);
-}
-
-function playSound(sound) {
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function stopSound(sound) {
-  sound.pause();
 }
 
 function onItemClick(item) {
