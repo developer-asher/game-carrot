@@ -45,7 +45,12 @@ export default class Field {
 
   onClick(event) {
     const target = event.target;
+    const popUp = document.querySelector('.pop-up');
+    
     if(target.matches('.carrot')) {
+      if(!popUp.classList.contains('hide')) {
+        return;
+      }
       target.remove();
       playSound(carrotSound);
       this.onItemClick && this.onItemClick('carrot');
