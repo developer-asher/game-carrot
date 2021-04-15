@@ -77,8 +77,8 @@ button {
   margin: 0 auto;
   border-radius: map-get($base-size, default);
   padding: map-get($base-size, default);
-  background-color: map-get($bg-color, popUp) 90;
-  color: map-get($font-color, bgDarker);
+  background-color: map-get($bg-color, popUp);
+  color: map-get($font-color, bgDark);
   text-align: center;
   transform: translateY(-150%);
   &.hide {
@@ -95,7 +95,7 @@ button {
 }
 .pop-up__message {
   font-size: 40px;
-  margin-top: map-get($base-size, margins);
+  margin-top: map-get($base-size, margin);
 }
 
 .carrot,

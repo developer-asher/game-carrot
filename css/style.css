@@ -79,7 +79,8 @@ button {
   margin: 0 auto;
   border-radius: 20px;
   padding: 20px;
-  background-color: #000000 90;
+  background-color: #00000090;
+  color: white;
   text-align: center;
   transform: translateY(-150%);
 }
@@ -98,6 +99,7 @@ button {
 
 .pop-up__message {
   font-size: 40px;
+  margin-top: 8px;
 }
 
 .carrot,
