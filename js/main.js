@@ -1,4 +1,5 @@
 'use strict';
+import PopUp from './popup.js';
 
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 10;
@@ -12,13 +13,11 @@ const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 
+const gameFinishBanner = new PopUp();
+
 let started = false;
 let score = 0;
 let timer = undefined;
-
-const popUp = document.querySelector('.pop-up');
-const popUpMessage = document.querySelector('.pop-up__message');
-const popUpRefresh = document.querySelector('.pop-up__refresh');
 
 const carrotSound = new Audio('sound/carrot_pull.mp3');
 const bugSound = new Audio('sound/bug_pull.mp3');
@@ -28,6 +27,7 @@ const winSound = new Audio('sound/game_win.mp3');
 
 function startGame() {
   started = true;
+  score = 0;
   initGame();
   showStopButton();
   showTimerAndScore();
@@ -39,7 +39,7 @@ function stopGame() {
   started = false;
   hideStopButton();
   stopGameTimer();
-  showPopUpWithText('REPLAY???');
+  gameFinishBanner.showWithText('REPLAY???');
   stopSound(bgSound);
   playSound(alertSound);
 }
@@ -49,10 +49,10 @@ function finishGame(win) {
   stopGameTimer();
   hideStopButton();
   if (win) {
-    showPopUpWithText('You Win!!');
+    gameFinishBanner.showWithText('You Win!!');
     playSound(winSound);
   } else {
-    showPopUpWithText('Game Over ^^~');
+    gameFinishBanner.showWithText('Game Over ^^~');
     playSound(bugSound);
   }
   stopSound(bgSound);
@@ -143,15 +143,6 @@ function stopGameTimer() {
   clearInterval(timer);
 }
 
-function showPopUpWithText(text) {
-  popUpMessage.innerText = text;
-  popUp.classList.remove('hide');
-}
-
-function hidePopUp() {
-  popUp.classList.add('hide');
-}
-
 function playSound(sound) {
   sound.currentTime = 0;
   sound.play();
@@ -187,10 +178,8 @@ gameBtn.addEventListener('click', () => {
   }
 });
 
-popUpRefresh.addEventListener('click', () => {
-  score = 0;
-  hidePopUp();
+field.addEventListener('click', onFieldClick);
+
+gameFinishBanner.setClickLisenter(() => {
   startGame();
 });
-
-field.addEventListener('click', onFieldClick);
