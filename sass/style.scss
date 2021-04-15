@@ -1,113 +1,108 @@
 @charset 'utf-8';
-
 @import 'variable';
-
-// common
-button {
-  border-radius: 5px;
-  padding: 0;
-  background-color: rgb(235, 235, 235);
-  font-size: 20px;
-  cursor: pointer;
-}
-.clear:after {
-  @include clear();
-}
-.txt_hide {
-  @include txt-hide();
-}
 
 body {
   margin: 0;
-  font-size: $font-size;
-  color: $font-color;
-  background-color: map-get($map: $gray, $key: dark);
+  background-color: map-get($bg-color, body);
 }
-.container {
-  position: relative;
-  width: 1000px;
-  height: 600px;
-  margin: $base-margin auto 0 auto;
-  border-radius: $radius;
-  background: url(../img/background.png) no-repeat center;
-  background-size: cover;
-  text-align: center;
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
-.operaiton {
+
+.game {
   display: flex;
   flex-direction: column;
+  width: map-get($container-size, width);
+  height: map-get($container-size, height);
+  margin: 60px auto 0 auto;
+  border-radius: map-get($base-size, default);
+  background: url(../img/background.png) no-repeat center/cover;
+  box-shadow: 1px 1px 5px 2px hsl(0, 0%, 45%);
 }
-.btn_play {
-  width: $base-width;
-  margin: $base-margin / 2 0;
-  border: 2px solid #000;
-  align-self: center;
-
-  > i {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+.game__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: map-get($base-size, default);
+}
+.game__button {
+  width: $button-size;
+  height: $button-size;
+  border: 4px solid black;
+  border-radius: 5px;
+  background-color: map-get($bg-color, play);
+  transition: transform 300ms ease-in;
+  font-size: 26px;
+  &:hover {
+    transform: scale(1.1);
   }
 }
-.timer,
-.counter {
-  background-color: #fff;
-  font-size: $font-size * 1.5;
-  align-self: center;
+
+.game__timer {
+  width: 100px;
+  margin-top: 8px;
+  border: 5px solid black;
+  border-radius: map-get($base-size, default);
+  background-color: map-get($bg-color, timer);
+  text-align: center;
+  font-size: 32px;
+  visibility: hidden;
+  user-select: none;
 }
-.timer {
-  width: $base-width * 2;
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: $base-padding / 2 0;
-}
-.counter {
-  width: $base-width;
-  height: $base-width;
-  margin-top: $base-margin / 4;
-  border: 2px solid #000;
+.game__score {
+  width: $score-size;
+  height: $score-size;
+  line-height: $score-size;
+  margin-top: map-get($base-size, margin);
   border-radius: 50%;
-  line-height: $base-width;
-  background-color: map-get($map: $bg, $key: main-color);
-  color: #fff;
+  background-color: map-get($bg-color, score);
+  text-align: center;
+  font-size: 36px;
+  visibility: hidden;
+  user-select: none;
 }
-.field > img {
-  position: absolute;
-  top: 55%;
-  transform: translate(-50%, -50%);
+.game__field {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-top: 40px;
 }
-.replay_wrap {
-  // display: none;
-  opacity: 0;
-  position: absolute;
-  left: 50%;
-  top: 75%;
-  width: 300px;
-  border-radius: $base-space;
-  padding: $base-padding;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white;
-  transform: translate(-50%, -50%);
-  transition: 0.3s;
-  z-index: -1;
 
-  p {
-    margin: 0;
-    margin-top: $base-margin / 2;
-    font-size: 25px;
-  }
-  i {
-    width: 100%;
-    height: 100%;
-    padding: $base-space;
-    box-sizing: border-box;
-    font-size: 20px;
+.pop-up {
+  display: block;
+  width: map-get($popUp-size, width);
+  height: map-get($popUp-size, height);
+  margin: 0 auto;
+  border-radius: map-get($base-size, default);
+  padding: map-get($base-size, default);
+  background-color: map-get($bg-color, popUp) 90;
+  color: map-get($font-color, bgDarker);
+  text-align: center;
+  transform: translateY(-150%);
+  &.hide {
+    display: none;
   }
 }
-.replay_wrap.on {
-  // display: block;
-  opacity: 1;
-  top: 70%;
-  z-index: 1;
+.pop-up__refresh {
+  width: $button-size;
+  height: $button-size;
+  border: 2px solid black;
+  border-radius: 50%;
+  background-color: map-get($bg-color, refresh);
+  font-size: 24px;
+}
+.pop-up__message {
+  font-size: 40px;
+  margin-top: map-get($base-size, margins);
+}
+
+.carrot,
+.bug {
+  cursor: pointer;
+  transition: transform 100ms ease-in;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
