@@ -81,7 +81,7 @@ class Game {
     this.started = true;
     this.score = 0;
     this.initGame();
-    this.showStopButton();
+    this.showAndHideButton();
     this.showTimerAndScore();
     this.startGameTimer();
     sound.playBackground();
@@ -89,7 +89,7 @@ class Game {
 
   stop() {
     this.started = false;
-    this.hideStopButton();
+    this.showAndHideButton();
     this.stopGameTimer();
     sound.stopBackground();
     sound.playAlert();
@@ -99,7 +99,7 @@ class Game {
   finish(win) {
     this.started = false;
     this.stopGameTimer();
-    this.hideStopButton();
+    this.showAndHideButton();
     if (win) {
       this.onGameStop && this.onGameStop(Reason.win);
       sound.playWin();
@@ -115,21 +115,20 @@ class Game {
     this.gameField.init();
   }
 
-  showStopButton() {
-    const icon = this.gameBtn.querySelector('.fa-play');
+  showAndHideButton() {
+    const icon = this.gameBtn.querySelector('.fas');
+    const ICON_PLAY = 'fa-play';
+    const ICON_STOP = 'fa-stop';
 
-    icon.classList.add('fa-stop');
-    icon.classList.remove('fa-play');
-    this.gameBtn.style.visibility = 'visible';
-  }
-
-  hideStopButton() {
-    const icon = this.gameBtn.querySelector('.fa-stop');
-
-    icon.classList.add('fa-play');
-    icon.classList.remove('fa-stop');
-
-    this.gameBtn.style.visibility = 'hidden';
+    if (icon.classList.contains(ICON_PLAY)) {
+      icon.classList.add(ICON_STOP);
+      icon.classList.remove(ICON_PLAY);
+      this.gameBtn.style.visibility = 'visible';
+    } else if (icon.classList.contains(ICON_STOP)) {
+      icon.classList.add(ICON_PLAY);
+      icon.classList.remove(ICON_STOP);
+      this.gameBtn.style.visibility = 'hidden';
+    }
   }
 
   showTimerAndScore() {
