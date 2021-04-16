@@ -93,20 +93,6 @@ class Game {
     this.stopGameTimer();
     sound.stopBackground();
 
-    switch (reason) {
-      case 'cancel':
-        sound.playAlert();
-        break;
-      case 'win':
-        sound.playWin();
-        break;
-      case 'lose':
-        sound.playBug();
-        break;
-      default:
-        throw new Error('not valid reason');
-    }
-
     this.onGameStop && this.onGameStop(reason);
   }
 
